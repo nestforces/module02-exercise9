@@ -6,14 +6,20 @@ import NavLink from './Cart/Navbar'
 import Keranjang from './Cart/Keranjang'
 import { ChakraProvider } from '@chakra-ui/react'
 import reportWebVitals from './reportWebVitals';
+import {Routes, Route} from "react-router-dom"
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ChakraProvider>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<NavLink />}/>
+        <Route path="/keranjang" element={<Keranjang />}/>
+      </Routes>
+      </BrowserRouter>
     {/* <App /> */}
-    <NavLink />
-    <Keranjang />
     </ChakraProvider>
     
   </React.StrictMode>

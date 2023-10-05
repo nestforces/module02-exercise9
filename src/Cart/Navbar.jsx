@@ -21,6 +21,7 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ImCart } from 'react-icons/im'
 import {products} from './Product/Product' 
+import { Link } from 'react-router-dom'
 
 
 
@@ -86,7 +87,7 @@ export default function WithAction() {
                 <ImCart></ImCart>
               </MenuButton>
               <MenuList width='fit-content' >
-              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row'><Text>Keranjang ({products.length})</Text><Text marginLeft='auto' color='green'>Lihat Sekarang</Text></Box>
+              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row' justifyContent={"space-between"}><Text>Keranjang ({products.length})</Text><Link to = "/keranjang"><Text color='green'>Lihat Sekarang</Text></Link></Box>
               {products.map((data, index)=>(
 
                 <MenuItem key={index} height='100%'>
