@@ -21,6 +21,8 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ImCart } from 'react-icons/im'
 import {products} from './Product/Product' 
+import axios from 'axios';
+import {useState, useEffect} from 'react'
 
 
 
@@ -50,6 +52,26 @@ const NavLink = (props: Props) => {
 
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [data, setData] = useState([]);
+
+    const fetchData = async() => {
+      try {
+       const response = await axios.get(
+         "http://localhost:3000/products"
+         );
+        setData(response.data);
+         console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
+    };
+
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+
 
 
   return (
@@ -82,46 +104,31 @@ export default function WithAction() {
                 variant={'link'}
                 cursor={'pointer'}
                 minW={0}>
-                  <Badge variant='solid' border='solid 2px white' borderRadius='100%' paddingBottom='0.5px'  colorScheme='red' transform= 'translate(50%, 35%)'>{products.length}</Badge>
+                  <Badge variant='solid' border='solid 2px white' borderRadius='100%' paddingBottom='0.5px'  colorScheme='red' transform= 'translate(50%, 35%)'>{data.length}</Badge>
                 <ImCart></ImCart>
               </MenuButton>
               <MenuList width='fit-content' >
-              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row'><Text>Keranjang ({products.length})</Text><Text marginLeft='auto' color='green'>Lihat Sekarang</Text></Box>
-              {products.map((data, index)=>(
+              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row'><Text>Keranjang ({data.length})</Text><Text marginLeft='auto' color='green'>Lihat Sekarang</Text></Box>
+              {data.length > 0 &&
+              data.map((item, index)=>(
 
                 <MenuItem key={index} height='100%'>
                   <Box display='flex' flexDirection='row' gap='20px' >
-                    <img height='auto' width='90px' key={index} alt='products' src={require(`${data.image}`)} />
+                    <img height='auto' width='90px' alt='products' src={require(`${item.image}`)} />
                     <Box display='flex' flexDirection='column' transform= 'translate(0, 25%)'>
                       <Text fontWeight='bold' 
                       size='10px'
                       whiteSpace= 'nowrap'
                       width= '130px' 
                       overflow= 'hidden'
-                      textOverflow= 'ellipsis' key={index}>{data.name}</Text>
-                      <Text key={index}>{data.quantity} Barang ({data.weight})</Text>
+                      textOverflow= 'ellipsis'>{item.name}</Text>
+                      <Text >{item.quantity} Barang ({item.weight})</Text>
                     </Box>
-                    <Text color='#f73505' transform= 'translate(0, 35%)' key={index}>Rp. {data.price}</Text>
+                    <Text color='#f73505' transform= 'translate(0, 35%)' >Rp. {item.price}</Text>
                   </Box>
                 </MenuItem>
               ))}
               
-                {/* <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row'><Text>Keranjang (3)</Text><Text marginLeft='auto' color='green'>Lihat Sekarang</Text></Box>
-                
-                <MenuItem >
-                  <Box display='flex' flexDirection='row' gap='30px' >
-                    <img height= 'auto' width= '90px' src={require('./shirt.jpg')} />
-                    <Box display='flex' flexDirection='column' transform= 'translate(0, 25%)'>
-                      <Text fontWeight='bold' 
-                      whiteSpace= 'nowrap'
-                      width= '130px' 
-                      overflow= 'hidden'
-                      textOverflow= 'ellipsis' >T-shirt polos sangat bagus sekali</Text>
-                      <Text>1 Barang (300gr)</Text>
-                    </Box>
-                    <Text color='orange' transform= 'translate(0, 25%)'>Rp. 120.000</Text>
-                  </Box>
-                </MenuItem> */}
               </MenuList>
             </Menu>
             {/* <Button

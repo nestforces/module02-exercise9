@@ -1,40 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, Checkbox, Divider, Flex, Heading, Text, Image, Button, IconButton } from '@chakra-ui/react'
 import { CiDiscount1 } from 'react-icons/ci'
 import { RiArrowRightSLine, RiShieldCheckFill, RiDeleteBin6Fill } from 'react-icons/ri'
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai'
-// import Sandal from "../components/Assets/sandal.jpeg"
+import axios from 'axios';
+import {useState, useEffect} from 'react'
 import {products} from './Product/Product' 
 
 
 function Keranjang() {
 
-    // const listCart = [
-    //     {
-    //         nama_toko: "Maul",
-    //         asal_toko: "Surakarta",
-    //         gambar: "gambar1",
-    //         nama_barang: "Sandal merah putih",
-    //         harga_barang: "219.000",
-    //     },
+    const [data, setData] = useState([]);
 
-    //     {
-    //         nama_toko: "Sando",
-    //         asal_toko: "Yogyakarta",
-    //         gambar: "gambar2",
-    //         nama_barang: "Sandal merah putih",
-    //         harga_barang: "219.000",
-    //     },
+    const fetchData = async() => {
+      try {
+       const response = await axios.get(
+         "http://localhost:3000/products"
+         );
+        setData(response.data);
+         console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
+    };
 
-    //     {
-    //         nama_toko: "Nabhan",
-    //         asal_toko: "Yogyakarta",
-    //         gambar: "gambar2",
-    //         nama_barang: "Sandal merah putih",
-    //         harga_barang: "219.000",
-    //     },
 
-    // ]
+    useEffect(() => {
+      fetchData();
+    }, []);
 
     // const [quantity, setQuantity] = useState(1)
 
@@ -65,9 +58,9 @@ function Keranjang() {
 
                 <Divider orientation='horizontal' borderBottom='2px' borderTop='2px' borderColor='blackAlpha.300'/>    
                 
-                {products.map((data,index) => (
-
-                <Box key={index}>
+                {data.length > 0 &&
+              data.map((item)=>(
+                <Box>
                 <Flex 
                 marginTop='3%'
                 >
@@ -80,9 +73,9 @@ function Keranjang() {
                     <Flex flexDirection={'column'}>
                         <Flex alignItems='center'>
                             <RiShieldCheckFill color='purple'/>
-                            <Text as='b' marginLeft={'4px'}>{data.shop}</Text>
+                            <Text as='b' marginLeft={'4px'}>{item.shop}</Text>
                         </Flex>
-                        <Text textAlign={'left'} color={'blackAlpha.600'}>{data.region}</Text>
+                        <Text textAlign={'left'} color={'blackAlpha.600'}>{item.region}</Text>
                     </Flex>
                 </Flex>
 
@@ -94,11 +87,11 @@ function Keranjang() {
                     
                     ></Checkbox>
                     <Box width='80px' height='80px'>
-                        <Image src={require(`${data.image}`)} alt='sendal' width='90%' marginLeft='5px'/>
+                        <Image src={require(`${item.image}`)} alt='sendal' width='90%' marginLeft='5px'/>
                     </Box>
                     <Flex flexDirection={'column'} marginLeft='5px'>
-                        <Text textAlign={'left'}>{data.name}</Text>
-                        <Text as='b' textAlign={'left'}>Rp. {data.price}</Text>
+                        <Text textAlign={'left'}>{item.name}</Text>
+                        <Text as='b' textAlign={'left'}>Rp. {item.price}</Text>
                     </Flex>
                 </Flex>
 
@@ -113,7 +106,7 @@ function Keranjang() {
                         <Box marginLeft='10px'>
                             <IconButton colorScheme='transparent' icon={<AiOutlineMinusCircle color='green'/>}/>   
                         </Box>
-                        <Text color='blackAlpha.300'>{data.quantity}</Text>
+                        <Text color='blackAlpha.300'>{item.quantity}</Text>
                         <Box>
                         <IconButton colorScheme='transparent' icon={<AiOutlinePlusCircle color='green'/>}/>
                         </Box>                        
