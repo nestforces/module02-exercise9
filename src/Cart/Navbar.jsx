@@ -21,8 +21,10 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ImCart } from 'react-icons/im'
 import {products} from './Product/Product' 
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import {useState, useEffect} from 'react'
+
 
 
 
@@ -108,9 +110,11 @@ export default function WithAction() {
                 <ImCart></ImCart>
               </MenuButton>
               <MenuList width='fit-content' >
-              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row'><Text>Keranjang ({data.length})</Text><Text marginLeft='auto' color='green'>Lihat Sekarang</Text></Box>
+
+              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row' justifyContent={"space-between"}><Text>Keranjang ({data.length})</Text><Link to = "/keranjang"><Text color='green'>Lihat Sekarang</Text></Link></Box>
               {data.length > 0 &&
               data.map((item, index)=>(
+
 
                 <MenuItem key={index} height='100%'>
                   <Box display='flex' flexDirection='row' gap='20px' >
