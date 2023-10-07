@@ -15,7 +15,7 @@ root.render(
     <ChakraProvider>
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<NavLink />}/>
+        <Route path="/" element={<App />}/>
         <Route path="/keranjang" element={<Keranjang />}/>
       </Routes>
       </BrowserRouter>
