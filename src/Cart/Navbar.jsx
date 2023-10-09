@@ -24,6 +24,7 @@ import {products} from './Product/Product'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import {useState, useEffect} from 'react'
+import { useSelector } from 'react-redux'
 
 
 
@@ -55,7 +56,18 @@ const NavLink = (props: Props) => {
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [data, setData] = useState([]);
+  const cart = useSelector((state) => state.product.value);
+  
+  const getTotalQuantity = () => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.quantity
+    });
+    return total
+  };
+  
+  const [data, setData] = useState([]);
+    const [cartData, setCartData] = useState([])
 
     const fetchData = async() => {
       try {
@@ -74,8 +86,24 @@ export default function WithAction() {
       fetchData();
     }, []);
 
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/cart");
+        const cartIds = response.data.map((item) => item.id);
+        // Now, you have an array of product IDs in the cartIds variable.
+        setCartData(cartIds)
+        console.log(cartIds);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
+    useEffect(() => {
+      fetchCartData();
+    }, []);
 
+    const filteredProducts = data.filter((product) => cartData.includes(product.id));
+    
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -97,35 +125,49 @@ export default function WithAction() {
           </HStack>
           <Flex alignItems={'center'}>
             
-            <Menu>
+            <Menu >
+            {cart.length > 0 ? (
+                  <Badge 
+                  variant='solid' 
+                  border='solid 2px white' 
+                  borderRadius='100%' 
+                  paddingBottom='0.5px'  
+                  colorScheme='red' 
+                  transform= 'translate(140%, -45%)' 
+                  zIndex='10' 
+                  fontSize='0.6em'>{getTotalQuantity() || ""}</Badge>
+                  ) : ( 
+                    ""
+                  )}
               <MenuButton
                marginRight='100px'
-               marginBottom='20px'
                 as={Button}
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
-                minW={0}>
-                  <Badge variant='solid' border='solid 2px white' borderRadius='100%' paddingBottom='0.5px'  colorScheme='red' transform= 'translate(50%, 35%)'>{data.length}</Badge>
-                <ImCart></ImCart>
+                minW={0}
+                >
+                  
+                <ImCart ></ImCart>
+                
               </MenuButton>
               <MenuList width='fit-content' >
 
-              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row' justifyContent={"space-between"}><Text>Keranjang ({data.length})</Text><Link to = "/keranjang"><Text color='green'>Lihat Sekarang</Text></Link></Box>
-              {data.length > 0 &&
-              data.map((item, index)=>(
+              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row' justifyContent={"space-between"}><Text>Keranjang ({filteredProducts.length})</Text><Link to = "/keranjang"><Text color='green' fontWeight='bold'>Lihat Sekarang</Text></Link></Box>
+              {filteredProducts.map((item) => (
 
 
-                <MenuItem key={index} height='100%'>
+                <MenuItem height='90px'>
                   <Box display='flex' flexDirection='row' gap='20px' >
                     <img height='auto' width='90px' alt='products' src={require(`${item.image}`)} />
-                    <Box display='flex' flexDirection='column' transform= 'translate(0, 25%)'>
+                    <Box display='flex' flexDirection='column' >
                       <Text fontWeight='bold' 
                       size='10px'
                       whiteSpace= 'nowrap'
                       width= '130px' 
                       overflow= 'hidden'
-                      textOverflow= 'ellipsis'>{item.name}</Text>
+                      textOverflow= 'ellipsis'
+                      transform= 'translate(0, 20%)'>{item.name}</Text>
                       <Text >{item.quantity} Barang ({item.weight})</Text>
                     </Box>
                     <Text color='#f73505' transform= 'translate(0, 35%)' >Rp. {item.price}</Text>
@@ -158,7 +200,6 @@ export default function WithAction() {
         ) : null}
       </Box>
 
-      {/* <Box p={4}>Main Content Here</Box> */}
     </>
   )
 }
