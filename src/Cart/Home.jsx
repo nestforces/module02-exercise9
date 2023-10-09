@@ -29,6 +29,7 @@ function Home() {
           await axios.post("http://localhost:3000/cart", {
               id: productId,
           });
+          alert("Added to cart")
       } catch (err) {
         alert("Already added")
           console.log(err);
@@ -50,11 +51,11 @@ function Home() {
     });
 
     return (
-        <Box display='flex' flexDirection={{ md: 'row', sm: 'column' }} marginTop='30px' justifyContent='center'>
+        <SimpleGrid minChildWidth='300px' spacing='40px'  marginTop='30px' margin={{sm: '15%', md :'0%'}} marginBottom={{md: '25px'}} >
             {data.length > 0 &&
                 data.map((item, index) => (
                   <form onSubmit={formik.handleSubmit}>
-                    <Card maxW='sm' border='solid black 1px' marginLeft='10px' marginTop='10px'
+                    <Card maxW='sm' border='solid black 1px' marginLeft='5px' marginTop='10px'
                         key={index}>
                         <CardBody>
                             <Image
@@ -63,7 +64,7 @@ function Home() {
                                 borderRadius='lg'
                                 height='200px'
                                 width='auto'
-                                justifySelf='center'
+                                margin='auto'
                             />
                             <Stack mt='6' spacing='3'>
                                 <Heading size='md'>{item.name}</Heading>
@@ -93,7 +94,7 @@ function Home() {
                     </Card>
                     </form>
                 ))}
-        </Box>
+        </SimpleGrid>
     )
 }
 

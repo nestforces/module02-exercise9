@@ -28,15 +28,24 @@
 // export default App;
 
 import React, {useState} from 'react';
+import './App.css';
+import {Routes, Route} from "react-router-dom"
+import { BrowserRouter } from 'react-router-dom';
 import Navbar from './Cart/Navbar'
 import Home from './Cart/Home'
-import './App.css';
+import Keranjang from './Cart/Keranjang'
 
 function App() {
   return (
     <>
+    
+    <BrowserRouter>
     <Navbar/>
-    <Home/>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/keranjang" element={<Keranjang />}/>
+      </Routes>
+      </BrowserRouter>
     </>
   )
 }

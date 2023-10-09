@@ -4,6 +4,7 @@ import { CiDiscount1 } from 'react-icons/ci';
 import { RiArrowRightSLine, RiShieldCheckFill, RiDeleteBin6Fill } from 'react-icons/ri';
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import axios from 'axios';
+import Navbar from './Navbar'
 
 function Keranjang() {
   const [quantities, setQuantities] = useState({});
@@ -16,7 +17,6 @@ function Keranjang() {
 
 
   const handleProductCheckboxChange = (productId) => {
-    // Toggle the selected status of the item with the given productId
     setItemCounts((prevItemCounts) => ({
       ...prevItemCounts,
       [productId]: !prevItemCounts[productId],
@@ -122,6 +122,7 @@ function Keranjang() {
   };
 
   return (
+      
     <Box width='95%'>
       <Flex
         flexDirection={{ md: 'row', sm: 'column' }}

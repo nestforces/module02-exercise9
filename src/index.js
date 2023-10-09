@@ -2,24 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import NavLink from './Cart/Navbar'
-import Keranjang from './Cart/Keranjang'
 import { ChakraProvider } from '@chakra-ui/react'
 import reportWebVitals from './reportWebVitals';
-import {Routes, Route} from "react-router-dom"
-import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    
     <ChakraProvider>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}/>
-        <Route path="/keranjang" element={<Keranjang />}/>
-      </Routes>
-      </BrowserRouter>
-    {/* <App /> */}
+      
+      
+    <App />
     </ChakraProvider>
     
   </React.StrictMode>
