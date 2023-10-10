@@ -19,7 +19,7 @@ function Keranjang() {
       [productId]: !prevItemCounts[productId],
     }));
 
-    // Calculate the total quantity based on the selected items
+    
     const newTotalQuantity = Object.values(itemCounts).reduce(
       (total, isSelected) => total + (isSelected ? 1 : 0),1
       // (total, index) => total + (itemCounts[index] > 0 ? 1 : -1),1 
@@ -29,7 +29,6 @@ function Keranjang() {
   };
 
   const increment = (index) => {
-    // Check if the item count exists in itemCounts
     if (itemCounts[index] !== undefined) {
       setItemCounts((prevItemCounts) => ({
         ...prevItemCounts,
@@ -88,7 +87,6 @@ function Keranjang() {
     try {
       const response = await axios.get("http://localhost:3000/cart");
       const cartIds = response.data.map((item) => item.id);
-      // Now, you have an array of product IDs in the cartIds variable.
       setCartData(cartIds);
       console.log(cartIds);
     } catch (err) {
@@ -103,7 +101,6 @@ function Keranjang() {
   const filteredProducts = data.filter((product) => cartData.includes(product.id));
 
   function formatPriceToIDR(price) {
-    // Use Intl.NumberFormat to format the number as IDR currency
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
