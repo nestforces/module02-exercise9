@@ -4,14 +4,11 @@ import { CiDiscount1 } from 'react-icons/ci';
 import { RiArrowRightSLine, RiShieldCheckFill, RiDeleteBin6Fill } from 'react-icons/ri';
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import axios from 'axios';
-import Navbar from './Navbar'
 
 function Keranjang() {
-  const [quantities, setQuantities] = useState({});
   const [itemCounts, setItemCounts] = useState({});
   const [data, setData] = useState([]);
   const [cartData, setCartData] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
   const [totalQuantity, setTotalQuantity] = useState(0);
 
 
@@ -25,6 +22,7 @@ function Keranjang() {
     // Calculate the total quantity based on the selected items
     const newTotalQuantity = Object.values(itemCounts).reduce(
       (total, isSelected) => total + (isSelected ? 1 : 0),1
+      // (total, index) => total + (itemCounts[index] > 0 ? 1 : -1),1 
     );
 
     setTotalQuantity(newTotalQuantity);
@@ -43,6 +41,7 @@ function Keranjang() {
         ...prevItemCounts,
         [index]: 1,
       }));
+      setTotalQuantity(totalQuantity + 1);
     }
   };
   
@@ -52,7 +51,7 @@ function Keranjang() {
         ...prevItemCounts,
         [index]: prevItemCounts[index] - 1,
       }));
-      
+      setTotalQuantity(totalQuantity - 1);
     }
   };
   

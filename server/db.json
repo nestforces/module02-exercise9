@@ -41,5 +41,18 @@
       "image": "./Product/Image/zx25rr.jpg"
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "id": 1
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    }
+  ]
 }

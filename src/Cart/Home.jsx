@@ -1,11 +1,13 @@
 import { Box, SimpleGrid, Card, CardHeader, Heading, CardBody, CardFooter, Text, Button, Image, Stack, Divider, ButtonGroup } from "@chakra-ui/react";
 import axios from 'axios';
 import { useState, useEffect } from 'react'
-import { useFormik } from 'formik'
+import { replace, useFormik } from 'formik'
+import {useNavigate} from 'react-router-dom'
 
 function Home() {
     const [data, setData] = useState([]);
     const [productId, setProductId] = useState(null); // Define productId state
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
@@ -29,6 +31,7 @@ function Home() {
           await axios.post("http://localhost:3000/cart", {
               id: productId,
           });
+          navigate('/')
           alert("Added to cart")
       } catch (err) {
         alert("Already added")
