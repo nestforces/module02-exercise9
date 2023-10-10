@@ -17,6 +17,8 @@ import {
   useColorModeValue,
   Stack,
   Badge,
+  Divider,
+  Image,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ImCart } from 'react-icons/im'
@@ -44,7 +46,7 @@ const NavLink = (props: Props) => {
       rounded={'md'}
       _hover={{
         textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
+        bg: useColorModeValue('green.200', 'green.700'),
       }}
       href={'#'}>
       {children}
@@ -56,6 +58,8 @@ export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [data, setData] = useState([]);
+    const [cartData, setCartData] = useState([])
+    const [filteredProducts, setFilteredProducts] = useState([])
 
     const fetchData = async() => {
       try {
@@ -74,13 +78,33 @@ export default function WithAction() {
       fetchData();
     }, []);
 
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/cart");
+        const cartIds = response.data.map((item) => item.id);
+        setCartData(cartIds)
+        console.log(cartIds);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
+    useEffect(() => {
+      fetchCartData();
+    }, []);
+
+    useEffect(() => {
+      const newFilteredProducts = data.filter((product) => cartData.includes(product.id));
+      setFilteredProducts(newFilteredProducts);
+    }, [data, cartData]);
 
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box bg={useColorModeValue('green.400', 'green.900')} px={4} textColor='white'>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
+          color='white'
+          backgroundColor='green.400'
             size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={'Open Menu'}
@@ -97,36 +121,42 @@ export default function WithAction() {
           </HStack>
           <Flex alignItems={'center'}>
             
-            <Menu>
+            <Menu >
+            {filteredProducts.length > 0 && (
+                  <Badge variant='solid' border='solid 2px white' borderRadius='100%' paddingBottom='0.5px'  colorScheme='red' transform= 'translate(140%, -45%)' zIndex='10' fontSize='0.6em'>{filteredProducts.length}</Badge>
+                  )}
               <MenuButton
-               marginRight='100px'
-               marginBottom='20px'
+               marginRight={{md: '100px', sm: '20px'}}
                 as={Button}
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
-                minW={0}>
-                  <Badge variant='solid' border='solid 2px white' borderRadius='100%' paddingBottom='0.5px'  colorScheme='red' transform= 'translate(50%, 35%)'>{data.length}</Badge>
-                <ImCart></ImCart>
+                minW={0}
+                >
+                  
+                <ImCart color='white'></ImCart>
+                
               </MenuButton>
               <MenuList width='fit-content' >
 
-              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row' justifyContent={"space-between"}><Text>Keranjang ({data.length})</Text><Link to = "/keranjang"><Text color='green'>Lihat Sekarang</Text></Link></Box>
-              {data.length > 0 &&
-              data.map((item, index)=>(
+              <Box padding='0px 10px 10px 10px' display='flex' flexDirection='row' justifyContent={"space-between"}><Text color='black'> Keranjang ({filteredProducts.length})</Text><Link to = "/keranjang"><Text color='green' fontWeight='bold'>Lihat Sekarang</Text></Link></Box>
+              <hr/>{
+              filteredProducts.map((item) => (
 
-
-                <MenuItem key={index} height='100%'>
+              
+                <MenuItem height='90px' marginTop='10px'>
                   <Box display='flex' flexDirection='row' gap='20px' >
-                    <img height='auto' width='90px' alt='products' src={require(`${item.image}`)} />
-                    <Box display='flex' flexDirection='column' transform= 'translate(0, 25%)'>
+                    <Image margin='auto' height='auto' width='70px' alt='products' src={require(`${item.image}`)} />
+                    <Box display='flex' flexDirection='column' >
                       <Text fontWeight='bold' 
                       size='10px'
                       whiteSpace= 'nowrap'
                       width= '130px' 
                       overflow= 'hidden'
-                      textOverflow= 'ellipsis'>{item.name}</Text>
-                      <Text >{item.quantity} Barang ({item.weight})</Text>
+                      textOverflow= 'ellipsis'
+                      transform= 'translate(0, 20%)'
+                      color='black'>{item.name}</Text>
+                      <Text color='black'>{item.quantity} Barang ({item.weight})</Text>
                     </Box>
                     <Text color='#f73505' transform= 'translate(0, 35%)' >Rp. {item.price}</Text>
                   </Box>
@@ -158,7 +188,6 @@ export default function WithAction() {
         ) : null}
       </Box>
 
-      {/* <Box p={4}>Main Content Here</Box> */}
     </>
   )
 }

@@ -1,34 +1,58 @@
 {
-    "products": [
-        {
-            "id": 1,
-            "name": "T-shirt polos warna kuning bagus",
-            "quantity": 1,
-            "weight": "300gr",
-            "price": "120.000",
-            "shop": "Baju",
-            "region": "Yogyakarta",
-            "image": "./Product/Image/shirt.jpg"
-          },
-          {
-              "id": 2,
-              "name": "CBR 250 RR SP QS ABS New 2023",
-              "quantity": 1,
-              "weight": "166kg",
-              "price": "80.000.000",
-              "shop": "Honda Dealer",
-              "region": "Yogyakarta",
-              "image": "./Product/Image/cbr250rr.jpg"
-            },
-            {
-                "id": 3,
-                "name": "CBR 250 RR SP QS ABS New 2023",
-                "quantity": 1,
-                "weight": "166kg",
-                "price": "80.000.000",
-                "shop": "Honda Dealer",
-                "region": "Yogyakarta",
-                "image": "./Product/Image/cbr250rr.jpg"
-              }
-    ]
+  "products": [
+    {
+      "id": 1,
+      "name": "T-shirt polos warna kuning bagus",
+      "quantity": 1,
+      "weight": "300gr",
+      "price": "120.000",
+      "shop": "Baju",
+      "region": "Yogyakarta",
+      "image": "./Product/Image/shirt.jpg"
+    },
+    {
+      "id": 2,
+      "name": "CBR 250 RR SP QS ABS New 2023",
+      "quantity": 1,
+      "weight": "166kg",
+      "price": "80.000.000",
+      "shop": "Honda Dealer",
+      "region": "Yogyakarta",
+      "image": "./Product/Image/cbr250rrABS.jpg"
+    },
+    {
+      "id": 3,
+      "name": "CBR 250 RR Non-ABS New 2023",
+      "quantity": 1,
+      "weight": "166kg",
+      "price": "60.000.000",
+      "shop": "Honda Dealer",
+      "region": "Yogyakarta",
+      "image": "./Product/Image/cbr250rr.jpg"
+    },
+    {
+      "id": 4,
+      "name": "ZX 25 RR ABS New 2023",
+      "quantity": 1,
+      "weight": "166kg",
+      "price": "120.000.000",
+      "shop": "Kawasaki Dealer",
+      "region": "Yogyakarta",
+      "image": "./Product/Image/zx25rr.jpg"
+    }
+  ],
+  "cart": [
+    {
+      "id": 1
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    }
+  ]
 }
